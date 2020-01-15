@@ -1,12 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   raytracer.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cbilga <cbilga@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/01/13 17:16:44 by cbilga            #+#    #+#             */
+/*   Updated: 2020/01/13 17:16:45 by cbilga           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "includes/rtv1.h"
 
 float collision(t_win *win, int i, t_vec3 pos, t_vec3 ray)
 {
     float t;
-    //t_sphere *object;
 
     t = 0;
-    //object = ((t_sphere*)(win->objects[i]))->type;
     if (((t_sphere*)(win->objects[i]))->type == 1)
         t = dist_sphere(pos, ray, (t_sphere*)(win->objects[i]));
     if (((t_plane*)(win->objects[i]))->type == 2)
@@ -51,7 +61,6 @@ unsigned int get_color(t_win *win, int obj, t_vec3 ray, float t)
        win->depth--;
        return (color);
     }
-    //sleep(100);
     return (0x000000FF);
 }
 
@@ -81,12 +90,6 @@ int raytrace(t_win *win, t_vec3 pos, t_vec3 ray)
         return(0x000000FF);
     else
         return(get_color(win, pick, ray, t));
-        //return(0xFFFFFFFF);
-    
-    //for all objects get T
-    //for object with smallest positive T calculate color
-    //return the pixel color
-    
     return(t);
 }
 
@@ -101,7 +104,6 @@ int shadowtrace(t_win* win, int light, t_vec3 inter)
     norm_ray = ray;
     vec3_normalize(&norm_ray);
     inter = vec3_add(vec3_mult(ray, 0.001), inter);
-    //vec3_print("normalized shadow ray", ray);
     while (i < win->nb_obj)
     {
         if (collision (win, i, inter , norm_ray) > 0 && collision (win, i, inter , norm_ray) < vec3_magnitude(ray))

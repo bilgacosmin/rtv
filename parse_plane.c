@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_plane.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cbilga <cbilga@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/01/13 17:16:24 by cbilga            #+#    #+#             */
+/*   Updated: 2020/01/15 11:15:11 by cbilga           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "includes/rtv1.h"
 
 static int parse_point(t_win *win, int fd, char *line)
@@ -19,7 +31,7 @@ static int parse_point(t_win *win, int fd, char *line)
             ((t_plane*)(win->objects[win->nb_obj - 1]))->point.z = ft_atof(curr[2]);
         else
             return (1);
-        free(curr); //MuST MOD
+        free_split(&curr);
     }
     else
         return (1);
@@ -47,7 +59,7 @@ static int parse_normal(t_win *win, int fd, char *line)
         else
             return (1);
         vec3_normalize(&(((t_plane*)(win->objects[win->nb_obj - 1]))->normal));
-        free(curr);
+        free_split(&curr);
     }
     else
         return (1);
@@ -86,7 +98,7 @@ int parse_plane(t_win *win, int fd, char *line)
         return (1);
     ((t_plane*)(win->objects[win->nb_obj]))->type = 2;
     win->nb_obj = win->nb_obj + 1;
-    if (parse_point(win, fd, line) || parse_normal(win, fd, line) 
+    if (parse_point(win, fd, line) || parse_normal(win, fd, line)
         || parse_color(win, fd, line))
         return (1);
     return (0);

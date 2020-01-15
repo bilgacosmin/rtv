@@ -26,6 +26,7 @@ typedef struct s_win
     t_camera        camera;
     void            **objects;
     int             nb_obj;
+    int             selected_object;
     unsigned int    color;
     unsigned int    pixels[SCREEN_X * SCREEN_Y];
     t_vec3          *lights;
@@ -70,8 +71,16 @@ typedef struct s_cylinder
     unsigned int color;
 }               t_cylinder;
 
-//TO DELETE
-void vec3_print(char *s, t_vec3 vec);
+typedef struct s_getcolor
+{
+    t_vec3 normal;
+    t_vec3 light_dir;
+    t_vec3 reflect_dir;
+    float light;
+    int i;
+    float magnitude;
+    float brilliance;
+}               t_getcolor;
 
 int             init_win(t_win *win);
 
@@ -103,5 +112,13 @@ int             parse_cylinder(t_win *win, int fd, char *line);
 int             parse_cone(t_win *win, int fd, char *line);
 int             parse_camera(t_win *win, int fd, char *line);
 int             parse_light(t_win *win, int fd, char *line);
+int             object_translate_up(t_win *win);
+int             object_translate_down(t_win *win);
+int             object_translate_left(t_win *win);
+int             object_translate_right(t_win *win);
+int             object_rotate_x(t_win *win);
+int             object_rotate_y(t_win *win);
+int             object_rotate_z(t_win *win);
 
 int             free_window(t_win *win);
+void			free_split(char ***split);

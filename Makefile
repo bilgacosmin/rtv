@@ -31,6 +31,8 @@ SRC = 	vector.c \
 		parse_cylinder.c \
 		parse_light.c \
 		parse_camera.c \
+		obj_translate.c \
+		obj_rotate.c \
 		main.c
 
 IFLAG = $(foreach dir, $(INC_PATH), -I$(dir) )

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_light.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cbilga <cbilga@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/01/13 17:16:20 by cbilga            #+#    #+#             */
+/*   Updated: 2020/01/15 11:14:44 by cbilga           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "includes/rtv1.h"
 
 static int parse_pos(t_win *win, int fd, char *line)
@@ -19,7 +31,7 @@ static int parse_pos(t_win *win, int fd, char *line)
             win->lights[win->nb_lights - 1].z = ft_atof(curr[2]);
         else
             return (1);
-        free(curr); //MuST MOD
+        free_split(&curr);
     }
     else
         return (1);

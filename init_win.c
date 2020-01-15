@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init_win.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cbilga <cbilga@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/01/13 16:52:34 by cbilga            #+#    #+#             */
+/*   Updated: 2020/01/15 09:47:17 by cbilga           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "includes/rtv1.h"
 int init_camera(t_camera *camera)
 {
@@ -61,5 +73,6 @@ int init_win(t_win *win)
     win->depth = 0;
     win->ambient_light = 0.3;
     win->nb_obj = 0;
+    win->selected_object = 0;
     return(0);
 }

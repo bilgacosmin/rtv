@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   plane.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cbilga <cbilga@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/01/13 17:16:39 by cbilga            #+#    #+#             */
+/*   Updated: 2020/01/15 11:39:42 by cbilga           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "includes/rtv1.h"
 
 int get_color_plane (t_win *win, t_vec3 inter, t_plane *plane, t_vec3 ray)
@@ -28,8 +40,6 @@ int get_color_plane (t_win *win, t_vec3 inter, t_plane *plane, t_vec3 ray)
             vec3_normalize(&light_dir);
             if (vec3_dot_prod(normal, light_dir) < 0)
                 normal = vec3_mult(normal, -1);
-            //if (vec3_dot_prod(ray, reflect_dir) > 0.997 && vec3_dot_prod(ray, reflect_dir) > brilliance)
-              //  brilliance = vec3_dot_prod(ray, reflect_dir);
             light = light + ((1 - light) * vec3_dot_prod(normal, light_dir) / magnitude);
         }
         i++;

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_cylinder.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cbilga <cbilga@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/01/13 17:16:08 by cbilga            #+#    #+#             */
+/*   Updated: 2020/01/15 11:14:28 by cbilga           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "includes/rtv1.h"
 
 static int parse_point(t_win *win, int fd, char *line)
@@ -19,7 +31,7 @@ static int parse_point(t_win *win, int fd, char *line)
             ((t_cylinder*)(win->objects[win->nb_obj - 1]))->point.z = ft_atof(curr[2]);
         else
             return (1);
-        free(curr); //MuST MOD
+        free_split(&curr);
     }
     else
         return (1);
@@ -47,7 +59,7 @@ static int parse_axis(t_win *win, int fd, char *line)
         else
             return (1);
         vec3_normalize(&(((t_cylinder*)(win->objects[win->nb_obj - 1]))->axis));
-        free(curr);
+        free_split(&curr);
     }
     else
         return (1);
@@ -72,7 +84,7 @@ if (get_next_line(fd, &line) > 0)
     }
     else
         return (1);
-    free(curr);
+    free_split(&curr);
 }
 else
     return (1);
@@ -96,7 +108,7 @@ int parse_cylinder(t_win *win, int fd, char *line)
         return (1);
     ((t_cylinder*)(win->objects[win->nb_obj]))->type = 4;
     win->nb_obj = win->nb_obj + 1;
-    if (parse_point(win, fd, line) || parse_axis(win, fd, line) 
+    if (parse_point(win, fd, line) || parse_axis(win, fd, line)
         || parse_color(win, fd, line) || parse_radius(win, fd, line))
         return (1);
     return (0);

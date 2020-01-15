@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_camera.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cbilga <cbilga@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/01/13 17:15:50 by cbilga            #+#    #+#             */
+/*   Updated: 2020/01/15 11:13:12 by cbilga           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "includes/rtv1.h"
 
 static int parse_position(t_win *win, int fd, char *line)
@@ -19,7 +31,7 @@ static int parse_position(t_win *win, int fd, char *line)
             win->camera.position.z = ft_atof(curr[2]);
         else
             return (1);
-        free(curr); //MuST MOD
+		free_split(&curr);
     }
     else
         return (1);
@@ -47,7 +59,7 @@ static int parse_direction(t_win *win, int fd, char *line)
         else
             return (1);
         vec3_normalize(&(win->camera.forward));
-        free(curr);
+        free_split(&curr);
     }
     else
         return (1);
@@ -69,7 +81,7 @@ static int parse_ambient(t_win *win, int fd, char *line)
 
 int parse_camera(t_win *win, int fd, char *line)
 {
-    if (parse_position(win, fd, line) || parse_direction(win, fd, line) 
+    if (parse_position(win, fd, line) || parse_direction(win, fd, line)
         || parse_ambient(win, fd, line))
         return (2);
     return (0);

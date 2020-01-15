@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   vector.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cbilga <cbilga@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/01/13 17:16:58 by cbilga            #+#    #+#             */
+/*   Updated: 2020/01/13 17:16:59 by cbilga           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "includes/rtv1.h"
 #include <math.h>
 
@@ -61,7 +73,32 @@ t_vec3 vec3_cross_prod(t_vec3 v1, t_vec3 v2)
 	return (v3);
 }
 
-void vec3_print(char *s, t_vec3 vec)
+t_vec3 vec3_rotation_x(t_vec3 v1, float angle)
 {
-	printf("%s : %f %f %f \n", s, vec.x, vec.y, vec.z);
+	t_vec3 v2;
+
+	v2.x = v1.x;
+	v2.y = v1.y * cos(angle) - v1.z * sin(angle);
+	v2.z = v1.y * sin(angle) + v1.z * cos(angle);
+	return (v2);
+}
+
+t_vec3 vec3_rotation_y(t_vec3 v1, float angle)
+{
+	t_vec3 v2;
+
+	v2.x = v1.x * cos(angle) + v1.z * sin(angle);
+	v2.y = v1.y;
+	v2.z = -(v1.x * sin(angle)) + v1.z * cos(angle);
+	return (v2);
+}
+
+t_vec3 vec3_rotation_z(t_vec3 v1, float angle)
+{
+	t_vec3 v2;
+
+	v2.x = v1.x * cos(angle) - v1.y * sin(angle); 
+	v2.y = v1.x * sin(angle) + v1.y * cos(angle);
+	v2.z = v1.z;
+	return (v2);
 }

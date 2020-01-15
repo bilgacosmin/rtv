@@ -23,5 +23,3 @@ cone
 0.2
 light
 -10 0 8
-light
-0 -3 0

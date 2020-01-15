@@ -1,108 +1,109 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cone.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cbilga <cbilga@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/01/13 16:50:54 by cbilga            #+#    #+#             */
+/*   Updated: 2020/01/15 12:45:27 by cbilga           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "includes/rtv1.h"
 
-t_vec3  get_cone_normal(t_cone *cone, t_vec3 point) //TO TEST
+static void	get_color_shadow(t_getcolor *c, t_vec3 ray)
 {
-    t_vec3 flank;
-    t_vec3 tmp;
-    t_vec3 normal;
-
-    flank = vec3_sub(cone->point, point);
-    tmp = vec3_cross_prod(flank, cone->axis);
-    normal = vec3_cross_prod(flank, tmp);
-    vec3_normalize(&normal);
-    return (normal);
+	c->magnitude = sqrt(vec3_magnitude(c->light_dir));
+	if (vec3_dot_prod(c->normal, c->light_dir) < 0)
+		c->normal = vec3_mult(c->normal, -1);
+	if (vec3_dot_prod(ray, c->reflect_dir) > 0.995 &&
+		vec3_dot_prod(ray, c->reflect_dir) > c->brilliance)
+		c->brilliance = vec3_dot_prod(ray, c->reflect_dir);
+	c->light = c->light + ((1 - c->light)
+		* vec3_dot_prod(c->normal, c->light_dir) / c->magnitude);
 }
 
-int get_color_cone (t_win *win, t_vec3 inter, t_cone *cone, t_vec3 ray)
+t_vec3		get_cone_normal(t_cone *cone, t_vec3 point)
 {
-    t_vec3 normal;
-    t_vec3 light_dir;
-    t_vec3 reflect_dir;
-    float light;
-    int i;
-    float magnitude;
-    float brilliance;
+	t_vec3 flank;
+	t_vec3 tmp;
+	t_vec3 normal;
 
-    light = win->ambient_light;
-    normal = get_cone_normal(cone, inter);
-    i = 0;
-    brilliance = 0;
-    while (i < win->nb_lights)
-    {
-        light_dir = vec3_sub(win->lights[i], inter);
-        vec3_normalize(&light_dir);
-        reflect_dir = vec3_sub(inter, vec3_add(normal, vec3_add(normal, vec3_add(inter, light_dir))));
-        vec3_normalize(&reflect_dir);
-        if (shadowtrace(win, i, inter) > 0)
-        {
-            magnitude = sqrt(vec3_magnitude(light_dir));
-            if (vec3_dot_prod(normal, light_dir) < 0)
-                normal = vec3_mult(normal, -1);
-            if (vec3_dot_prod(ray, reflect_dir) > 0.995 && vec3_dot_prod(ray, reflect_dir) > brilliance)
-                brilliance = vec3_dot_prod(ray, reflect_dir);
-            light = light + ((1 - light) * vec3_dot_prod(normal, light_dir) / magnitude);
-        }
-        i++;
-    }
-    return (calculate_light(cone->color, light, brilliance));
+	flank = vec3_sub(cone->point, point);
+	tmp = vec3_cross_prod(flank, cone->axis);
+	normal = vec3_cross_prod(flank, tmp);
+	vec3_normalize(&normal);
+	return (normal);
 }
 
-float dist_cone(t_vec3 pos, t_vec3 dir, t_cone *cone)
+int			get_color_cone(t_win *win, t_vec3 inter, t_cone *cone, t_vec3 ray)
 {
-    float t[7]; //t1 t2 a b c det
-    t_vec3 c_pos;
+	t_getcolor c;
 
-    //vec3_print("cone point", cone->point);
-    //vec3_print("cone axis", cone->axis);
-    //printf("angle %f\n", cone->angle);
-    t[6] = cos(cone->angle) * cos(cone->angle);
-    //printf("cos 2 theta %f\n", t[6]);
-    c_pos = vec3_sub(cone->point, pos);
-    //vec3_print("dir ", dir);
-    //vec3_print("c_pos", c_pos);
-    t[2] = vec3_dot_prod(dir, cone->axis);
-    t[2] = (t[2] * t[2]) -  t[6];
-    //printf("a %f \n", t[2]);
-    //c_pos = vec3_sub(cone->point, pos);
-    t[3] = 2 * ((vec3_dot_prod(dir, cone->axis) * vec3_dot_prod(c_pos, cone->axis)) - (vec3_dot_prod(dir, c_pos) * t[6]));
-    //printf("b %f \n", t[3]);
-    t[4] = vec3_dot_prod(c_pos, cone->axis);
-    t[4] = (t[4] * t[4]) - (vec3_dot_prod(c_pos, vec3_mult(c_pos, t[6])));
-    //printf("c %f \n", t[4]); 
-    t[5] = (t[3] * t[3]) - (4 * t[2] * t[4]);
-    //printf("delta %f \n", t[5]);
-    //sleep(100);
-    if (t[5] < 0 || t[2] == 0)
-        return(-1.0);
-    t[0] = (-t[3] + sqrt(t[5])) / (2 * t[2]);
-    t[1] = (-t[3] - sqrt(t[5])) / (2 * t[2]);
-    //printf("Cone distances %f %f \n", t[0], t[1]);
-    t[0] = -t[0]; // ??
-    t[1] = -t[1]; // why negative ?? 
-    if (t[0] > 0 && t[1] > 0)
-    {
-        if (t[0] > t[1])
-            return (t[1]);
-    }
-    return (-1);
+	c.light = win->ambient_light;
+	c.normal = get_cone_normal(cone, inter);
+	c.i = 0;
+	c.brilliance = 0;
+	while (c.i < win->nb_lights)
+	{
+		c.light_dir = vec3_sub(win->lights[c.i], inter);
+		vec3_normalize(&c.light_dir);
+		c.reflect_dir = vec3_sub(inter, vec3_add(c.normal,
+			vec3_add(c.normal, vec3_add(inter, c.light_dir))));
+		vec3_normalize(&c.reflect_dir);
+		if (shadowtrace(win, c.i, inter) > 0)
+			get_color_shadow(&c, ray);
+		c.i++;
+	}
+	return (calculate_light(cone->color, c.light, c.brilliance));
 }
 
-int    new_cone(t_cone **cone)
+float		dist_cone(t_vec3 pos, t_vec3 dir, t_cone *cone)
 {
-    t_cone *new;
+	float	t[7];
+	t_vec3	c_pos;
 
-    if (!(new = (t_cone*)malloc(sizeof(t_cone))))
-        return (2);
-    new->type = 3;
-    new->point.x = 0;
-    new->point.y = 0;
-    new->point.z = 40;
-    new->axis.x = -1;
-    new->axis.y = -1;
-    new->axis.z = 0;
-    vec3_normalize(&(new->axis));
-    new->angle = M_PI / 13;
-    new->color = 0xFF0000FF;
-    *cone = new;
-    return(0);
+	t[6] = cos(cone->angle) * cos(cone->angle);
+	c_pos = vec3_sub(cone->point, pos);
+	t[2] = vec3_dot_prod(dir, cone->axis);
+	t[2] = (t[2] * t[2]) - t[6];
+	t[3] = 2 * ((vec3_dot_prod(dir, cone->axis)
+		* vec3_dot_prod(c_pos, cone->axis))
+		- (vec3_dot_prod(dir, c_pos) * t[6]));
+	t[4] = vec3_dot_prod(c_pos, cone->axis);
+	t[4] = (t[4] * t[4]) - (vec3_dot_prod(c_pos, vec3_mult(c_pos, t[6])));
+	t[5] = (t[3] * t[3]) - (4 * t[2] * t[4]);
+	if (t[5] < 0 || t[2] == 0)
+		return (-1.0);
+	t[0] = (-t[3] + sqrt(t[5])) / (2 * t[2]);
+	t[1] = (-t[3] - sqrt(t[5])) / (2 * t[2]);
+	t[0] = -t[0];
+	t[1] = -t[1];
+	if (t[0] > 0 && t[1] > 0)
+	{
+		if (t[0] > t[1])
+			return (t[1]);
+	}
+	return (-1);
+}
+
+int			new_cone(t_cone **cone)
+{
+	t_cone *new;
+
+	if (!(new = (t_cone*)malloc(sizeof(t_cone))))
+		return (2);
+	new->type = 3;
+	new->point.x = 0;
+	new->point.y = 0;
+	new->point.z = 40;
+	new->axis.x = -1;
+	new->axis.y = -1;
+	new->axis.z = 0;
+	vec3_normalize(&(new->axis));
+	new->angle = M_PI / 13;
+	new->color = 0xFF0000FF;
+	*cone = new;
+	return (0);
 }

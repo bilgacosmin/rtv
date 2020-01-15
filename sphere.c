@@ -1,46 +1,48 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   sphere.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cbilga <cbilga@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/01/13 17:16:49 by cbilga            #+#    #+#             */
+/*   Updated: 2020/01/15 12:06:55 by cbilga           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "includes/rtv1.h"
 
 int get_color_sphere(t_win *win, t_vec3 inter, t_sphere *sphere, t_vec3 ray)
 {
-    t_vec3 normal;
-    t_vec3 light_dir;
-    t_vec3 reflect_dir;
-    float light;
-    int i;
-    float magnitude;
-    float brilliance;
+    t_getcolor c;
 
-    light = win->ambient_light;
-    normal = vec3_sub(inter, sphere->center);
-    vec3_normalize(&normal);
-    brilliance = 0;
-    i = 0;
-    while (i < win->nb_lights)
+    c.light = win->ambient_light;
+    c.normal = vec3_sub(inter, sphere->center);
+    vec3_normalize(&(c.normal));
+    c.brilliance = 0;
+    c.i = 0;
+    while (c.i < win->nb_lights)
     {
-        light_dir = vec3_sub(win->lights[i], inter);
-        vec3_normalize(&light_dir);
-        reflect_dir = vec3_sub(inter, vec3_add(normal, vec3_add(normal, vec3_add(inter, light_dir))));
-        vec3_normalize(&reflect_dir);
-        if (shadowtrace(win, i, inter) > 0)
+        c.light_dir = vec3_sub(win->lights[c.i], inter);
+        vec3_normalize(&(c.light_dir));
+        c.reflect_dir = vec3_sub(inter, vec3_add(c.normal, vec3_add(c.normal, vec3_add(inter, c.light_dir))));
+        vec3_normalize(&(c.reflect_dir));
+        if (shadowtrace(win, c.i, inter) > 0)
         {
-            magnitude = sqrt(vec3_magnitude(light_dir));
-            if (vec3_dot_prod(ray, reflect_dir) > 0.995 && vec3_dot_prod(ray, reflect_dir) > brilliance)
-                brilliance = vec3_dot_prod(ray, reflect_dir);
-            light = light + ((1 - light) * vec3_dot_prod(normal, light_dir) / magnitude);
+            c.magnitude = sqrt(vec3_magnitude(c.light_dir));
+            if (vec3_dot_prod(ray, c.reflect_dir) > 0.995 && vec3_dot_prod(ray, c.reflect_dir) > c.brilliance)
+                c.brilliance = vec3_dot_prod(ray, c.reflect_dir);
+            c.light = c.light + ((1 - c.light) * vec3_dot_prod(c.normal, c.light_dir) / c.magnitude);
         }
-        i++;
+        c.i++;
     }
-    return (calculate_light(sphere->color, light, brilliance));
+    return (calculate_light(sphere->color, c.light, c.brilliance));
 }
 
 float dist_sphere(t_vec3 pos, t_vec3 dir, t_sphere *sphere)
 {
-    float t[6]; //t1 t2 a b c det
+    float t[6];
 
-    //printf("DIST SPHERE\n Camera pos %f %f %f\n",pos.x, pos.y, pos.z);
-    //printf("Ray direction %f %f %f\n", dir.x, dir.y, dir.z);
-    //printf("Sphere position %f %f %f\n", sphere->center.x, sphere->center.y, sphere->center.x);
-    //sleep(100);
     t[2] = (dir.x * dir.x) + (dir.y * dir.y) + (dir.z * dir.z);
     t[3] = 2 * (dir.x * (pos.x - sphere->center.x) + dir.y * (pos.y - sphere->center.y) + dir.z * (pos.z - sphere->center.z));
     t[4] = ((pos.x - sphere->center.x) * (pos.x - sphere->center.x)
