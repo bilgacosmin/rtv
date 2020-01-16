@@ -6,37 +6,33 @@
 /*   By: cbilga <cbilga@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/13 17:16:24 by cbilga            #+#    #+#             */
-/*   Updated: 2020/01/15 11:15:11 by cbilga           ###   ########.fr       */
+/*   Updated: 2020/01/16 15:38:01 by cbilga           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/rtv1.h"
 
-static int parse_point(t_win *win, int fd, char *line)
+static int	parse_point(t_win *win, int fd, char *line)
 {
-    char **curr;
+	char **curr;
 
-    if (get_next_line(fd, &line) > 0)
-    {
-        curr = ft_strsplit(line, ' ');
-        if (curr[0])
-            ((t_plane*)(win->objects[win->nb_obj - 1]))->point.x = ft_atof(curr[0]);
-        else
-            return (1);
-        if (curr[1])
-            ((t_plane*)(win->objects[win->nb_obj - 1]))->point.y = ft_atof(curr[1]);
-        else
-            return (1);
-        if (curr[2])
-            ((t_plane*)(win->objects[win->nb_obj - 1]))->point.z = ft_atof(curr[2]);
-        else
-            return (1);
-        free_split(&curr);
-    }
-    else
-        return (1);
-    free(line);
-    return (0);
+	if (get_next_line(fd, &line) > 0)
+	{
+		curr = ft_strsplit(line, ' ');
+		if (curr[0] && curr[1] && curr[2])
+		{
+			((t_plane*)(win->objects[win->nb_obj - 1]))->point.x = ft_atof(curr[0]);
+			((t_plane*)(win->objects[win->nb_obj - 1]))->point.y = ft_atof(curr[1]);
+			((t_plane*)(win->objects[win->nb_obj - 1]))->point.z = ft_atof(curr[2]);
+		}
+		else
+			return (1);
+		free_split(&curr);
+	}
+	else
+		return (1);
+	free(line);
+	return (0);
 }
 
 static int parse_normal(t_win *win, int fd, char *line)

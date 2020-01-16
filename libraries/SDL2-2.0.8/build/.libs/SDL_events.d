@@ -36,4 +36,8 @@ build/SDL_events.lo: \
   /Users/cbilga/RTV/libraries/SDL2-2.0.8/src/events/../video/SDL_vulkan_internal.h \
   /Users/cbilga/RTV/libraries/SDL2-2.0.8/src/events/../video/./khronos/vulkan/vulkan.h \
   /Users/cbilga/RTV/libraries/SDL2-2.0.8/src/events/../video/./khronos/vulkan/./vk_platform.h \
-  include/SDL_vulkan.h include/SDL_syswm.h
+  /usr/X11R6/include/X11/Xlib.h /usr/X11R6/include/X11/X.h \
+  /usr/X11R6/include/X11/Xfuncproto.h /usr/X11R6/include/X11/Xosdefs.h \
+  /usr/X11R6/include/xcb/xcb.h /usr/X11R6/include/xcb/xproto.h \
+  include/SDL_vulkan.h include/SDL_syswm.h \
+  /usr/X11R6/include/X11/Xatom.h

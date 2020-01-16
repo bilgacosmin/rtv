@@ -22,6 +22,9 @@ build/SDL_video.lo: \
   /Users/cbilga/RTV/libraries/SDL2-2.0.8/src/video/SDL_vulkan_internal.h \
   /Users/cbilga/RTV/libraries/SDL2-2.0.8/src/video/./khronos/vulkan/vulkan.h \
   /Users/cbilga/RTV/libraries/SDL2-2.0.8/src/video/./khronos/vulkan/./vk_platform.h \
+  /usr/X11R6/include/X11/Xlib.h /usr/X11R6/include/X11/X.h \
+  /usr/X11R6/include/X11/Xfuncproto.h /usr/X11R6/include/X11/Xosdefs.h \
+  /usr/X11R6/include/xcb/xcb.h /usr/X11R6/include/xcb/xproto.h \
   include/SDL_vulkan.h \
   /Users/cbilga/RTV/libraries/SDL2-2.0.8/src/video/SDL_blit.h \
   /Users/cbilga/RTV/libraries/SDL2-2.0.8/src/video/SDL_pixels_c.h \
@@ -38,6 +41,8 @@ build/SDL_video.lo: \
   /Users/cbilga/RTV/libraries/SDL2-2.0.8/src/video/../events/SDL_windowevents_c.h \
   /Users/cbilga/RTV/libraries/SDL2-2.0.8/src/video/../timer/SDL_timer_c.h \
   /Users/cbilga/RTV/libraries/SDL2-2.0.8/src/video/../timer/../SDL_internal.h \
-  include/SDL_syswm.h include/SDL_opengl.h include/SDL_opengl_glext.h \
+  include/SDL_syswm.h /usr/X11R6/include/X11/Xatom.h \
+  include/SDL_opengl.h include/SDL_opengl_glext.h \
   /Users/cbilga/RTV/libraries/SDL2-2.0.8/src/video/cocoa/SDL_cocoamessagebox.h \
-  /Users/cbilga/RTV/libraries/SDL2-2.0.8/src/video/cocoa/../../SDL_internal.h
+  /Users/cbilga/RTV/libraries/SDL2-2.0.8/src/video/cocoa/../../SDL_internal.h \
+  /Users/cbilga/RTV/libraries/SDL2-2.0.8/src/video/x11/SDL_x11messagebox.h

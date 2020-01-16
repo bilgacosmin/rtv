@@ -45,7 +45,7 @@ LFLAG = -L ./libraries/lib \
 all: $(NAME)
 
 $(NAME): libraries/lib/libSDL2.dylib Libft/libft.a $(OBJ)
-	gcc -g -std=c99 -fsanitize=address  -o $(NAME) $(OBJ) $(LFLAG)
+	gcc -g -std=c99 -o $(NAME) $(OBJ) $(LFLAG)
 	@echo "Done !"
 
 obj/%.o: %.c $(HEADER)
