@@ -6,7 +6,7 @@
 /*   By: cbilga <cbilga@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/13 17:16:03 by cbilga            #+#    #+#             */
-/*   Updated: 2020/01/16 15:13:01 by cbilga           ###   ########.fr       */
+/*   Updated: 2020/02/04 11:42:55 by cbilga           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ static int	parse_angle(t_win *win, int fd, char *line)
 int			parse_cone(t_win *win, int fd, char *line)
 {
 	if (!(win->objects[win->nb_obj] = (t_cone*)malloc(sizeof(t_cone))))
-		return (1);
+		error_handling(win);
 	((t_cone*)(win->objects[win->nb_obj]))->type = 3;
 	win->nb_obj = win->nb_obj + 1;
 	if (parse_point(win, fd, line) || parse_axis(win, fd, line)

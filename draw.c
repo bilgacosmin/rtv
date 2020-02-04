@@ -6,7 +6,7 @@
 /*   By: cbilga <cbilga@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/13 16:52:19 by cbilga            #+#    #+#             */
-/*   Updated: 2020/01/15 14:51:37 by cbilga           ###   ########.fr       */
+/*   Updated: 2020/01/17 14:50:41 by cbilga           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,24 +54,24 @@ int			draw(t_win *win)
 	int		y;
 	t_vec3	viewplanepointstart;
 	t_vec3	viewplanepoint;
+	t_vec3	tmp;
 
 	calculate_camera(win);
 	calculate_view_point_start(&viewplanepointstart, win);
-	y = 0;
-	while (y < SCREEN_Y)
+	y = -1;
+	while (++y < SCREEN_Y)
 	{
-		x = 0;
-		while (x < SCREEN_X)
+		x = -1;
+		while (++x < SCREEN_X)
 		{
 			viewplanepoint =
 				calculate_view_point(&viewplanepointstart, win, x, y);
+			tmp = viewplanepoint;
 			viewplanepoint = vec3_sub(viewplanepoint, win->camera.position);
 			vec3_normalize(&viewplanepoint);
-			win->color = raytrace(win, win->camera.position, viewplanepoint);
+			win->color = raytrace(win, tmp, viewplanepoint);
 			win->pixels[y * SCREEN_X + x] = win->color;
-			x++;
 		}
-		y++;
 	}
 	render_routine(win);
 	return (0);

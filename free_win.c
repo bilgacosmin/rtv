@@ -6,7 +6,7 @@
 /*   By: cbilga <cbilga@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/13 16:52:28 by cbilga            #+#    #+#             */
-/*   Updated: 2020/01/15 15:10:14 by cbilga           ###   ########.fr       */
+/*   Updated: 2020/02/04 09:26:28 by cbilga           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ int		free_window(t_win *win)
 		free(win->objects[i]);
 		i++;
 	}
-	i = 0;
 	free(win->lights);
 	SDL_DestroyTexture(win->texture);
 	SDL_DestroyRenderer(win->renderer);
@@ -42,4 +41,10 @@ void	free_split(char ***split)
 	}
 	free(*split);
 	*split = NULL;
+}
+
+int		error_handling(t_win *win)
+{
+	free_window(win);
+	exit(0);
 }

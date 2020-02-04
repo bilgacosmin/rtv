@@ -6,7 +6,7 @@
 /*   By: cbilga <cbilga@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/13 16:51:58 by cbilga            #+#    #+#             */
-/*   Updated: 2020/01/15 13:19:14 by cbilga           ###   ########.fr       */
+/*   Updated: 2020/02/04 09:25:57 by cbilga           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,12 +87,12 @@ float		dist_cylinder(t_vec3 pos, t_vec3 dir, t_cylinder *cylinder)
 	return (-1);
 }
 
-int			new_cylinder(t_cylinder **cylinder)
+int			new_cylinder(t_win *win, t_cylinder **cylinder)
 {
 	t_cylinder *new;
 
 	if (!(new = (t_cylinder*)malloc(sizeof(t_cylinder))))
-		return (2);
+		error_handling(win);
 	new->type = 4;
 	new->point.x = 1;
 	new->point.y = 0;

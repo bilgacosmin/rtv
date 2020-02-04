@@ -6,7 +6,7 @@
 /*   By: cbilga <cbilga@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/13 16:50:54 by cbilga            #+#    #+#             */
-/*   Updated: 2020/01/16 16:43:24 by cbilga           ###   ########.fr       */
+/*   Updated: 2020/02/04 09:25:33 by cbilga           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,26 +74,19 @@ float		dist_cone(t_vec3 pos, t_vec3 dir, t_cone *cone)
 	t[4] = vec3_dot_prod(c_pos, cone->axis);
 	t[4] = (t[4] * t[4]) - (vec3_dot_prod(c_pos, vec3_mult(c_pos, t[6])));
 	t[5] = (t[3] * t[3]) - (4 * t[2] * t[4]);
-	if (t[5] < 0 || t[2] == 0)
+	if (t[5] < -0.001 || t[2] == 0)
 		return (-1.0);
-	t[0] = (-t[3] + sqrt(t[5])) / (2 * t[2]);
-	t[1] = (-t[3] - sqrt(t[5])) / (2 * t[2]);
-	t[0] = -t[0];
-	t[1] = -t[1];
-	if (t[0] > 0 && t[1] > 0)
-	{
-		if (t[0] > t[1])
-			return (t[1]);
-	}
-	return (-1);
+	t[0] = -(-t[3] + sqrt(t[5])) / (2 * t[2]);
+	t[1] = -(-t[3] - sqrt(t[5])) / (2 * t[2]);
+	return (check_t(t[0], t[1]));
 }
 
-int			new_cone(t_cone **cone)
+int			new_cone(t_win *win, t_cone **cone)
 {
 	t_cone *new;
 
 	if (!(new = (t_cone*)malloc(sizeof(t_cone))))
-		return (2);
+		error_handling(win);
 	new->type = 3;
 	new->point.x = 0;
 	new->point.y = 0;

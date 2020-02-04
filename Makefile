@@ -11,6 +11,7 @@ LIB_PATH = ./libraries/lib \
 GCC = gcc -Wall -Wextra -Werror
 
 SRC = 	vector.c \
+		vector_2.c \
 		free_win.c \
 		init_win.c \
 		turn.c \

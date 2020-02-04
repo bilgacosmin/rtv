@@ -1,24 +1,36 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_atof.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cbilga <cbilga@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/02/04 11:47:26 by cbilga            #+#    #+#             */
+/*   Updated: 2020/02/04 11:48:37 by cbilga           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
 
-double atof_aux(const char *str)
+double	atof_aux(const char *str)
 {
-    int i;
-    double f;
+	int		i;
+	double	f;
 
-    i = 10;
-    f = 0;
-    if (*str && *str == '.')
-    {
-        str++;
-        i = 10;
-        while ((*str >= 48) && (*str <= 57) && *str)
-	    {
-		    f += ((double)(*str - 48) / i);
-            i *= 10;
-		    str++;
-	    }
-    }
-    return (f);
+	i = 10;
+	f = 0;
+	if (*str && *str == '.')
+	{
+		str++;
+		i = 10;
+		while ((*str >= 48) && (*str <= 57) && *str)
+		{
+			f += ((double)(*str - 48) / i);
+			i *= 10;
+			str++;
+		}
+	}
+	return (f);
 }
 
 double	ft_atof(const char *str)
@@ -41,6 +53,6 @@ double	ft_atof(const char *str)
 		f = (f * 10) + (*str - 48);
 		str++;
 	}
-    f = f + atof_aux(&(*str));
+	f = f + atof_aux(&(*str));
 	return (f * sign);
 }

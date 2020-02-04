@@ -6,7 +6,7 @@
 /*   By: cbilga <cbilga@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/13 17:16:20 by cbilga            #+#    #+#             */
-/*   Updated: 2020/01/16 15:36:11 by cbilga           ###   ########.fr       */
+/*   Updated: 2020/02/04 11:39:17 by cbilga           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int			parse_light(t_win *win, int fd, char *line)
 	else
 	{
 		if (!(tmp = (t_vec3*)malloc(sizeof(t_vec3) * win->nb_lights)))
-			return (1);
+			error_handling(win);
 		while (i < win->nb_lights - 1)
 		{
 			tmp[i] = win->lights[i];

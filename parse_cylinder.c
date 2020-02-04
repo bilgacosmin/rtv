@@ -6,7 +6,7 @@
 /*   By: cbilga <cbilga@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/13 17:16:08 by cbilga            #+#    #+#             */
-/*   Updated: 2020/01/16 15:32:06 by cbilga           ###   ########.fr       */
+/*   Updated: 2020/02/04 11:43:08 by cbilga           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ static int	parse_radius(t_win *win, int fd, char *line)
 int			parse_cylinder(t_win *win, int fd, char *line)
 {
 	if (!(win->objects[win->nb_obj] = (t_cylinder*)malloc(sizeof(t_cylinder))))
-		return (1);
+		error_handling(win);
 	((t_cylinder*)(win->objects[win->nb_obj]))->type = 4;
 	win->nb_obj = win->nb_obj + 1;
 	if (parse_point(win, fd, line) || parse_axis(win, fd, line)

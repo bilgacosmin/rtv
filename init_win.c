@@ -6,13 +6,13 @@
 /*   By: cbilga <cbilga@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/13 16:52:34 by cbilga            #+#    #+#             */
-/*   Updated: 2020/01/15 15:12:24 by cbilga           ###   ########.fr       */
+/*   Updated: 2020/02/04 11:45:07 by cbilga           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/rtv1.h"
 
-int	init_camera(t_camera *camera)
+int			init_camera(t_camera *camera)
 {
 	t_vec3 tmp;
 
@@ -33,26 +33,12 @@ int	init_camera(t_camera *camera)
 	return (0);
 }
 
-int	parse_objects_empty(t_win *win)
+static int	parse_objects_empty_2(t_win *win)
 {
-	win->nb_obj = 5;
-	win->objects = (void**)malloc(sizeof(void*) * win->nb_obj);
-	new_cylinder((t_cylinder **)(&(win->objects[0])));
-	new_sphere((t_sphere **)(&(win->objects[1])));
-	((t_sphere*)(win->objects[1]))->center.x = 0;
-	((t_sphere*)(win->objects[1]))->center.y = -3;
-	((t_sphere*)(win->objects[1]))->center.z = 20;
-	((t_sphere*)(win->objects[1]))->r = 1;
-	((t_sphere*)(win->objects[1]))->color = 0x0000FFFF;
-	new_plane((t_plane**)(&(win->objects[2])));
-	new_plane((t_plane**)(&(win->objects[3])));
-	((t_plane*)(win->objects[3]))->color = 0xBF00FFFF;
-	((t_plane*)(win->objects[3]))->normal.z = 0;
-	((t_plane*)(win->objects[3]))->normal.y = 1;
-	((t_plane*)(win->objects[3]))->point.y = -8;
-	new_cone((t_cone **)(&(win->objects[4])));
+	new_cone(win, (t_cone **)(&(win->objects[4])));
 	win->nb_lights = 2;
-	win->lights = (t_vec3*)malloc(sizeof(t_vec3) * win->nb_lights);
+	if (!(win->lights = (t_vec3*)malloc(sizeof(t_vec3) * win->nb_lights)))
+		error_handling(win);
 	win->lights[0].x = -10;
 	win->lights[0].y = 0;
 	win->lights[0].z = 8;
@@ -60,6 +46,27 @@ int	parse_objects_empty(t_win *win)
 	win->lights[1].y = -3;
 	win->lights[1].z = 0;
 	return (0);
+}
+
+int			parse_objects_empty(t_win *win)
+{
+	win->nb_obj = 5;
+	if (!(win->objects = (void**)malloc(sizeof(void*) * win->nb_obj)))
+		error_handling(win);
+	new_cylinder(win, (t_cylinder **)(&(win->objects[0])));
+	new_sphere(win, (t_sphere **)(&(win->objects[1])));
+	((t_sphere*)(win->objects[1]))->center.x = 0;
+	((t_sphere*)(win->objects[1]))->center.y = -3;
+	((t_sphere*)(win->objects[1]))->center.z = 20;
+	((t_sphere*)(win->objects[1]))->r = 1;
+	((t_sphere*)(win->objects[1]))->color = 0x0000FFFF;
+	new_plane(win, (t_plane**)(&(win->objects[2])));
+	new_plane(win, (t_plane**)(&(win->objects[3])));
+	((t_plane*)(win->objects[3]))->color = 0xBF00FFFF;
+	((t_plane*)(win->objects[3]))->normal.z = 0;
+	((t_plane*)(win->objects[3]))->normal.y = 1;
+	((t_plane*)(win->objects[3]))->point.y = -8;
+	return (parse_objects_empty_2(win));
 }
 
 int	init_win(t_win *win)

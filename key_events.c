@@ -6,7 +6,7 @@
 /*   By: cbilga <cbilga@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/13 16:52:44 by cbilga            #+#    #+#             */
-/*   Updated: 2020/01/15 15:31:11 by cbilga           ###   ########.fr       */
+/*   Updated: 2020/02/04 09:45:43 by cbilga           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,9 +67,9 @@ int			key_pressed(t_win *win)
 	if (win->event.key.keysym.scancode == SDL_SCANCODE_ESCAPE)
 		return (1);
 	if (win->event.key.keysym.scancode == SDL_SCANCODE_W)
-		win->camera.position.y += 1;
-	if (win->event.key.keysym.scancode == SDL_SCANCODE_S)
 		win->camera.position.y -= 1;
+	if (win->event.key.keysym.scancode == SDL_SCANCODE_S)
+		win->camera.position.y += 1;
 	if (win->event.key.keysym.scancode == SDL_SCANCODE_A)
 		win->camera.position.x += 1;
 	if (win->event.key.keysym.scancode == SDL_SCANCODE_D)
